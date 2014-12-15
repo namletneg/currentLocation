@@ -2,13 +2,15 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Html 5 获取当前位置 DOM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Html5 获取当前位置 DOM</title>
 </head>
 <body>
 <div id="map" style="width:600px; height:400px"></div>
-<div id="allmap" style="width:600px; height:400px"></div>
 <script src="http://api.map.baidu.com/api?v=2.0"></script>
-<script src="js/convertor.js"></script>
 <script>
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(locationSuccess, locationError, {enableHighAccuracy: true});
@@ -20,12 +22,11 @@
         // 获取到当前位置经纬度  本例中是chrome浏览器取到的是google地图中的经纬度
         var coords = position.coords,
             lng = coords.longitude,
-            lat = coords.latitude;
-        console.log(lng + ' ' + lat)
-        // 调用百度地图api显示
-        var map = new BMap.Map("map"),    // 创建Map实例
+            lat = coords.latitude,
+            // 调用百度地图api显示
+            map = new BMap.Map("map"),    // 创建Map实例
             //point = new BMap.Point(lng,lat),
-            p1 = new BMap.Point(lng,lat),
+            p1 = new BMap.Point(lng, lat),
             p2 = new BMap.Point(121.523114,38.900),
             transit = new BMap.TransitRoute(map, {
                 renderOptions: {map: map}
@@ -36,20 +37,21 @@
     }
 
     function locationError(error){
-        /*switch(error.code) {
+        var map = document.getElementById('map')
+        switch(error.code) {
             case error.TIMEOUT:
-                showError("A timeout occured! Please try again!");
+                map.innerHTML = '请求超时，请重试一次';
                 break;
             case error.POSITION_UNAVAILABLE:
-                showError('We can\'t detect your location. Sorry!');
+                map.innerHTML = '抱歉！我们无法检测到你的位置。';
                 break;
             case error.PERMISSION_DENIED:
-                showError('Please allow geolocation access for this to work.');
+                map.innerHTML = '请允许浏览器访问您的位置，才可查看地图';
                 break;
             case error.UNKNOWN_ERROR:
-                showError('An unknown error occured!');
+                map.innerHTML = '发生未知错误！';
                 break;
-        }*/
+        }
     }
 </script>
 </body>
